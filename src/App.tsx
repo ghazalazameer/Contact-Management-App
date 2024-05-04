@@ -1,11 +1,19 @@
-import React from 'react';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Charts from "./components/pages/Charts";
+import Contacts from "./components/pages/Contacts";
+import CreateContact from "./components/pages/CreateContact";
 
-function App() {
+const App = () => {
   return (
-    <div>
-      Lets begin the Assignment for Taiyo..!!
-    </div>
+    <Routes>
+      <Route path="/contacts" element={<Contacts />} />
+      <Route path="/contacts/edit" element={<CreateContact edit />} />
+      <Route path="/contacts/create" element={<CreateContact />} />
+
+      <Route path="/" element={<Charts />} />
+    </Routes>
   );
-}
+};
 
 export default App;
