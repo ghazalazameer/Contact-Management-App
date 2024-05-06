@@ -1,48 +1,64 @@
-import React, { useState } from "react";
-import { nanoid } from "nanoid";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { nanoid } from "nanoid";
 import Button from "../Button";
 import Sidebar from "../Sidebar";
 import Card from "../Card";
 import notfound from "../assets/notFound.svg";
 
 const Contacts = () => {
-  const navigate = useNavigate();
   const [details, setDetails] = useState([
     {
-      id: nanoid(),
+      id: 1,
       firstName: "Sarah",
       lastName: "Naved",
       status: "Inactive",
     },
     {
-      id: nanoid(),
+      id: 2,
       firstName: "Ayesha",
       lastName: "Arif",
       status: "Inactive",
     },
     {
-      id: nanoid(),
+      id: 3,
       firstName: "Uru",
       lastName: "Jam",
       status: "Active",
     },
     {
-      id: nanoid(),
+      id: 3,
       firstName: "Ilma",
       lastName: "Shah",
       status: "Inactive",
     },
     {
-      id: nanoid(),
+      id: 4,
       firstName: "Ifrah",
       lastName: "Andleeb",
       status: "Active",
     },
   ]);
 
+  const navigate = useNavigate();
+  // const { state } = useLocation();
+
+  // console.log(state, "content from create/edit form");
+
+  // useMemo(() => {
+  //   setDetails((prevDetails) => [
+  //     ...prevDetails,
+  //     {
+  //       id: state?.id,
+  //       firstName: state?.firstName,
+  //       lastName: state?.lastName,
+  //       status: state?.status,
+  //     },
+  //   ]);
+  // }, []);
+
+
   const deleteContact = (id: any) => {
-    let index = details.findIndex((i) => i.id === id);
     let temp = details.filter((item) => item.id !== id);
     // console.log(temp, "filtered");
     setDetails(temp);
