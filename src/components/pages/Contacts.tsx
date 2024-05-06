@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { nanoid } from "nanoid";
 import Button from "../Button";
 import Sidebar from "../Sidebar";
 import Card from "../Card";
 import notfound from "../assets/notFound.svg";
+import { useSelector } from "react-redux";
 
 const Contacts = () => {
+  let contactData = useSelector((state: any) => state.contact);
+
+  console.log(contactData, "contactData from redux store");
   const [details, setDetails] = useState([
     {
       id: 1,
@@ -27,13 +30,13 @@ const Contacts = () => {
       status: "Active",
     },
     {
-      id: 3,
+      id: 4,
       firstName: "Ilma",
       lastName: "Shah",
       status: "Inactive",
     },
     {
-      id: 4,
+      id: 5,
       firstName: "Ifrah",
       lastName: "Andleeb",
       status: "Active",
@@ -41,23 +44,7 @@ const Contacts = () => {
   ]);
 
   const navigate = useNavigate();
-  // const { state } = useLocation();
-
-  // console.log(state, "content from create/edit form");
-
-  // useMemo(() => {
-  //   setDetails((prevDetails) => [
-  //     ...prevDetails,
-  //     {
-  //       id: state?.id,
-  //       firstName: state?.firstName,
-  //       lastName: state?.lastName,
-  //       status: state?.status,
-  //     },
-  //   ]);
-  // }, []);
-
-
+  
   const deleteContact = (id: any) => {
     let temp = details.filter((item) => item.id !== id);
     // console.log(temp, "filtered");
@@ -81,10 +68,10 @@ const Contacts = () => {
         <div className="flex flex-col justify-center items-center lg:m-0 m-5">
         {details.length > 0 ? (
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-5 mt-10 ">
-              {details.map((item: any) => (
+              {contactData?.map((item: any) => (
               <Card
               details={item}
-              key={nanoid()}
+              key={item?.id}
               deleteContact={() => deleteContact(item?.id)}
             />
               ))}
