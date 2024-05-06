@@ -3,25 +3,41 @@ import React, { useEffect, useState } from "react";
 import LineChart from "../ApexLineChart";
 import LeafletMap from "../LeafletMap";
 import Sidebar from "../Sidebar";
+import { useQuery } from "react-query"; // deals with server-side data fetching.
 
 const Charts = () => {
   const [content, setContent] = useState(true);
+
   const toggle = () => {
     setContent(!content);
   };
+
+  // Used the useQuery hook to fetch data from the URL and destructures the result into data, error, and isLoading variables.
+  const {
+    data: data,
+    error: error,
+    isLoading: isLoading,
+  } = useQuery("getGraphData", async () => { // The useQuery hook takes two arguments: a unique key (getGraphData: identifying the query) and an async function that fetches the data.
+    const res = await fetch(
+      "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
+    );
+    return res.json();
+  });
+
+  console.log(data, "line graph data using react query");
 
   const [cases, setCases] = useState([] as any);
   const [deaths, setDeaths] = useState([] as any);
   const [recovered, setRecovered] = useState([] as any);
 
-  const getData = () => {
-    axios
+  const getData = async () => {
+    axios // fetches data from the URL and sets the data to the respective state variables.
       .get("https://disease.sh/v3/covid-19/historical/all?lastdays=all")
       .then((response) => {
-        // console.log(response);
         let { cases, deaths, recovered } = response.data;
 
-        let casesDataPoints = [] as any;
+        // The data is then mapped to an array of objects with x and y properties.
+        let casesDataPoints = [] as any; 
         let deathsDataPoints = [] as any;
         let recoveredDataPoints = [] as any;
 
@@ -37,39 +53,27 @@ const Charts = () => {
           recoveredDataPoints.push({ x: item[0], y: item[1] })
         );
 
-        // console.log(casesDataPoints, "casesDataPoints");
-        // console.log(deathsDataPoints, "deathsDataPoints");
-        // console.log(recoveredDataPoints, "recoveredDataPoints");
-
         setCases(casesDataPoints);
         setDeaths(deathsDataPoints);
         setRecovered(recoveredDataPoints);
-
-        // let casesData = [] as any;
-
-        // Object.entries(cases).map((item: any) => casesData.push(item[1]));
-        // // setCases(casesData);
-
-        // let deathsData = [] as any;
-        // Object.entries(deaths).map((item: any) => deathsData.push(item[1]));
-        // // setDeaths(deathsData);
-
-        // let recoveredData = [] as any;
-        // Object.entries(recovered).map((item: any) => recoveredData.push(item[1]));
-        // // setRecovered(recoveredData);
-
-        // console.log(casesData, "casesData");
-        // console.log(deathsData, "deathsData");
-        // console.log(recoveredData, "recoveredData");
+        // console.log(recoveredDataPoints);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
+  if (error) {
+    return <p>Error occured</p>;
+  }
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="flex lg:flex-row flex-col">
       <Sidebar />

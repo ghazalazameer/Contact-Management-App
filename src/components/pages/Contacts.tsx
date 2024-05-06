@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router-dom";
 import Button from "../Button";
@@ -6,42 +6,47 @@ import Sidebar from "../Sidebar";
 import Card from "../Card";
 import notfound from "../assets/notFound.svg";
 
-const details = [
-  {
-    id: nanoid(),
-    firstName: "Ilma",
-    lastName: "Shah",
-    status: "Inactive",
-  },
-  {
-    id: nanoid(),
-    firstName: "Sarah",
-    lastName: "Naved",
-    status: "Inactive",
-  },
-  {
-    id: nanoid(),
-    firstName: "Ayesha",
-    lastName: "Arif",
-    status: "Active",
-  },
-  {
-    id: nanoid(),
-    firstName: "Uroosa",
-    lastName: "Jamil",
-    status: "Inactive",
-  },
-  {
-    id: nanoid(),
-    firstName: "Ifrah",
-    lastName: "Andleeb",
-    status: "Active",
-  },
-];
-
-
 const Contacts = () => {
   const navigate = useNavigate();
+  const [details, setDetails] = useState([
+    {
+      id: nanoid(),
+      firstName: "Sarah",
+      lastName: "Naved",
+      status: "Inactive",
+    },
+    {
+      id: nanoid(),
+      firstName: "Ayesha",
+      lastName: "Arif",
+      status: "Inactive",
+    },
+    {
+      id: nanoid(),
+      firstName: "Uru",
+      lastName: "Jam",
+      status: "Active",
+    },
+    {
+      id: nanoid(),
+      firstName: "Ilma",
+      lastName: "Shah",
+      status: "Inactive",
+    },
+    {
+      id: nanoid(),
+      firstName: "Ifrah",
+      lastName: "Andleeb",
+      status: "Active",
+    },
+  ]);
+
+  const deleteContact = (id: any) => {
+    let index = details.findIndex((i) => i.id === id);
+    let temp = details.filter((item) => item.id !== id);
+    // console.log(temp, "filtered");
+    setDetails(temp);
+  };
 
   return (
     <div className="flex lg:flex-row flex-col">
@@ -58,10 +63,14 @@ const Contacts = () => {
         </p>
 
         <div className="flex flex-col justify-center items-center lg:m-0 m-5">
-          {true ? (
+        {details.length > 0 ? (
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-5 mt-10 ">
               {details.map((item: any) => (
-                <Card details={item} key={nanoid()} />
+              <Card
+              details={item}
+              key={nanoid()}
+              deleteContact={() => deleteContact(item?.id)}
+            />
               ))}
             </div>
           ) : (
