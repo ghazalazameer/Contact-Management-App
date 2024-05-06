@@ -7,9 +7,9 @@ import notfound from "../assets/notFound.svg";
 import { useSelector } from "react-redux";
 
 const Contacts = () => {
-  let contactData = useSelector((state: any) => state.contact);
+  const reduxData = useSelector((state: any) => state.contacts);
 
-  console.log(contactData, "contactData from redux store");
+  console.log(reduxData.items, "contactData from redux store");
   const [details, setDetails] = useState([
     {
       id: 1,
@@ -66,13 +66,13 @@ const Contacts = () => {
         </p>
 
         <div className="flex flex-col justify-center items-center lg:m-0 m-5">
-        {details.length > 0 ? (
+        {reduxData?.items?.length > 0 ? (
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-5 mt-10 ">
-              {contactData?.map((item: any) => (
+                {reduxData.items?.map((item: any) => (
               <Card
               details={item}
               key={item?.id}
-              deleteContact={() => deleteContact(item?.id)}
+               // deleteContact={() => deleteContact(item?.id)}
             />
               ))}
             </div>
