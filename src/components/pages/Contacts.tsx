@@ -7,50 +7,13 @@ import notfound from "../assets/notFound.svg";
 import { useSelector } from "react-redux";
 
 const Contacts = () => {
-  const reduxData = useSelector((state: any) => state.contacts);
+  // data from redux store
+  const contacts = useSelector((state: any) => state.contacts);
 
-  console.log(reduxData.items, "contactData from redux store");
-  const [details, setDetails] = useState([
-    {
-      id: 1,
-      firstName: "Sarah",
-      lastName: "Naved",
-      status: "Inactive",
-    },
-    {
-      id: 2,
-      firstName: "Ayesha",
-      lastName: "Arif",
-      status: "Inactive",
-    },
-    {
-      id: 3,
-      firstName: "Uru",
-      lastName: "Jam",
-      status: "Active",
-    },
-    {
-      id: 4,
-      firstName: "Ilma",
-      lastName: "Shah",
-      status: "Inactive",
-    },
-    {
-      id: 5,
-      firstName: "Ifrah",
-      lastName: "Andleeb",
-      status: "Active",
-    },
-  ]);
+  // console.log(reduxData.items, "contactData from redux store");
 
   const navigate = useNavigate();
   
-  const deleteContact = (id: any) => {
-    let temp = details.filter((item) => item.id !== id);
-    // console.log(temp, "filtered");
-    setDetails(temp);
-  };
-
   return (
     <div className="flex lg:flex-row flex-col">
       <Sidebar />
@@ -66,17 +29,18 @@ const Contacts = () => {
         </p>
 
         <div className="flex flex-col justify-center items-center lg:m-0 m-5">
-        {reduxData?.items?.length > 0 ? (
+        {contacts?.items?.length > 0 ? (
+            // render list if length is greater than 0
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-5 mt-10 ">
-                {reduxData.items?.map((item: any) => (
+                {contacts.items?.map((item: any) => (
               <Card
               details={item}
               key={item?.id}
-               // deleteContact={() => deleteContact(item?.id)}
             />
               ))}
             </div>
           ) : (
+              // if no contacts are available
             <div className="mt-10 border border-primary p-5 rounded flex items-center gap-5">
               <img
                 className="w-[56px] h-[56px]"

@@ -21,11 +21,13 @@ const radioItems = [
 ];
 
 const CreateContact = ({ edit }: any) => {
+   // getting data from Link component for edit contact
   const { state } = useLocation();
   console.log(state, "from edit route");
 
   const dispatch = useDispatch();
 
+ // settings current contact details 
   useEffect(() => {
     setParams({
       firstName: state?.firstName,
@@ -34,6 +36,7 @@ const CreateContact = ({ edit }: any) => {
     });
   }, [state]);
 
+   // initial params for form
   const initialStates = {
     firstName: "",
     lastName: "",
@@ -43,17 +46,23 @@ const CreateContact = ({ edit }: any) => {
   const [params, setParams] = useState(initialStates);
   console.log(params);
 
+   // to capture user input
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setParams({ ...params, [name]: value });
   };
+
+  // to handle radio input
   const handleRadio = (e: any) => {
     setParams({ ...params, status: e.target.value });
   };
+
+  // to create a new contact
   const handleSubmit = () => {
     dispatch(addContact(params));
   };
 
+   // to update the existing contact details
   const handleUpdate = () => {
     dispatch(updateContact({ ...params, id: state.id }));
   };

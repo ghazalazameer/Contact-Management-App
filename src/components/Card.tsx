@@ -4,7 +4,7 @@ import Button from "./Button";
 import { useDispatch } from "react-redux";
 import { removeContact } from "./middleware/store";
 
-const Card = ({ details, deleteContact }: any) => {
+const Card = ({ details }: any) => {
   const dispatch = useDispatch();
 
   return (
