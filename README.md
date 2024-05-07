@@ -1,6 +1,6 @@
 # Contact Management App with Charts and Maps
 
-This project is a contact management app with charts and maps built using ReactJS, TypeScript, TailwindCSS, React Router v6, React Query (TanstackQuery), and Redux for state management. It allows users to add, view, edit, and delete contacts, as well as visualize COVID-19 data on charts and maps.
+This project is a contact management app with charts and maps built using ReactJS, TypeScript, TailwindCSS, React Router v6, React Query, and Redux for state management. It allows users to add, view, edit, and delete contacts, as well as visualize COVID-19 data on charts and maps.
 
 ## Features
 
@@ -44,3 +44,13 @@ To run this project locally, follow these steps:
    ```bash
    npm start
    ```
+
+## API Endpoints
+
+The app fetches COVID-19 data from the following APIs:
+
+- **Worldwide Data of Cases:** [https://disease.sh/v3/covid-19/all](https://disease.sh/v3/covid-19/all)
+- **Country Specific Data of Cases:** [https://disease.sh/v3/covid-19/countries](https://disease.sh/v3/covid-19/countries)
+- **Graph Data for Cases with Date:** [https://disease.sh/v3/covid-19/historical/all?lastdays=all](https://disease.sh/v3/covid-19/historical/all?lastdays=all)
+
+These APIs provide essential data for displaying COVID-19 statistics worldwide and by country. You can make requests to these endpoints to retrieve up-to-date information on cases, recoveries, and deaths related to the COVID-19 pandemic.
