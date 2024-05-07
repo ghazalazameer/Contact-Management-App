@@ -4,6 +4,7 @@ import LineChart from "../ApexLineChart";
 import LeafletMap from "../LeafletMap";
 import Sidebar from "../Sidebar";
 import { useQuery } from "react-query"; // deals with server-side data fetching.
+import ApexChart from "../ApexChart";
 
 const Charts = () => {
   const [content, setContent] = useState(true);
@@ -13,18 +14,18 @@ const Charts = () => {
   };
 
   // Used the useQuery hook to fetch data from the URL and destructures the result into data, error, and isLoading variables.
-  const {
-    data: data,
-    error: error,
-    isLoading: isLoading,
-  } = useQuery("getGraphData", async () => { // The useQuery hook takes two arguments: a unique key (getGraphData: identifying the query) and an async function that fetches the data.
-    const res = await fetch(
-      "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
-    );
-    return res.json();
-  });
+  // const {
+  //   data: data,
+  //   error: error,
+  //   isLoading: isLoading,
+  // } = useQuery("getGraphData", async () => {
+  //   const res = await fetch(
+  //     "https://disease.sh/v3/covid-19/historical/all?lastdays=all"
+  //   );
+  //   return res.json();
+  // });
 
-  console.log(data, "line graph data using react query");
+    // console.log(data, "line graph data using react query");
 
   const [cases, setCases] = useState([] as any);
   const [deaths, setDeaths] = useState([] as any);
@@ -41,21 +42,35 @@ const Charts = () => {
         let deathsDataPoints = [] as any;
         let recoveredDataPoints = [] as any;
 
+        let date = new Date()
+
         Object.entries(cases).map((item) =>
-          casesDataPoints.push({ x: item[0], y: item[1] })
+          {
+            let date = new Date(item[0])
+            casesDataPoints.push([date.getTime(),item[1]])
+          }
         );
 
         Object.entries(deaths).map((item) =>
-          deathsDataPoints.push({ x: item[0], y: item[1] })
+          {
+            let date = new Date(item[0])
+            deathsDataPoints.push([date.getTime(),item[1]])
+          }
         );
 
         Object.entries(recovered).map((item) =>
-          recoveredDataPoints.push({ x: item[0], y: item[1] })
+          {
+            let date = new Date(item[0])
+            recoveredDataPoints.push([date.getTime(),item[1]])
+          }
         );
 
         setCases(casesDataPoints);
         setDeaths(deathsDataPoints);
         setRecovered(recoveredDataPoints);
+
+        console.log(casesDataPoints);
+        console.log(deathsDataPoints);
         // console.log(recoveredDataPoints);
       })
       .catch((error) => {
@@ -63,22 +78,22 @@ const Charts = () => {
       });
   };
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    getData();
+  }, []);
 
-  if (error) {
-    return <p>Error occured</p>;
-  }
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+  // if (error) {
+  //   return <p>Error occured</p>;
+  // }
+  // if (isLoading) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <div className="flex lg:flex-row flex-col">
       <Sidebar />
       <div className="lg:w-[1190px] w-full flex flex-col justify-center items-center">
-        {content ? (
+      {!content ? (
           <div className="flex items-center gap-5">
             <p className="p-4 text-lg text-cyan uppercase cursor-pointer font-medium">
               Line Graph
@@ -104,9 +119,10 @@ const Charts = () => {
           </div>
         )}
 
-        {content ? (
+        {!content ? (
           <div className="w-full">
-            <LineChart cases={cases} deaths={deaths} recovered={recovered} />
+            {/* <LineChart cases={cases} deaths={deaths} recovered={recovered} /> */}
+            <ApexChart cases={cases} deaths={deaths} recovered={recovered} />
           </div>
         ) : (
           <>
