@@ -11,6 +11,13 @@ const radioItems = [
   { label: "Inactive", value: "Inactive" },
 ];
 
+interface Contact {
+  id: string; 
+  firstName: string;
+  lastName: string;
+  status: string;
+}
+
 const CreateContact = ({ edit }: any) => {
   const { state } = useLocation();
   const dispatch = useDispatch();
@@ -43,14 +50,27 @@ const CreateContact = ({ edit }: any) => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    dispatch(addContact({ ...params, id: nanoid() }));
+    const newContact: import("../middleware/store").Contact = { ...params, id: nanoid() };  // Creating a new contact with a unique id using nanoid
+    dispatch(addContact(newContact));
+    const storedContacts = localStorage.getItem("contacts");  // Retrieving existing contacts from local storage / initializing an empty array
+    const contacts = storedContacts ? JSON.parse(storedContacts) : [];
+    const updatedContacts = [...contacts, newContact];
+    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
     navigate("/contacts");
   };
-
+  
   const handleUpdate = () => {
-    dispatch(updateContact({ ...params, id: state.id }));
+    const updatedContact: import("../middleware/store").Contact = { ...params, id: state.id };
+    dispatch(updateContact(updatedContact));
+    const storedContacts = localStorage.getItem("contacts");
+    const contacts = storedContacts ? JSON.parse(storedContacts) : [];
+    const updatedContacts = contacts.map((contact: import("../middleware/store").Contact) =>
+      contact.id === state.id ? updatedContact : contact
+    );
+    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
     navigate("/contacts");
   };
+  
 
   return (
     <div className="flex lg:flex-row flex-col">

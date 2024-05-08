@@ -4,15 +4,11 @@ import { combineReducers } from "redux";
 import { showToastMessage } from "../../utils/helpers";
 
 export interface Contact {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   status: string;
 }
-
-// interface RootState {
-//  todos: Contact[];
-// }
 
 interface ContactState {
   items: Contact[];
@@ -22,77 +18,47 @@ const initialState: ContactState = {
   items: [],
 };
 
-const contactSlice: any = createSlice({
+const contactSlice = createSlice({
   name: "contacts",
   initialState,
   reducers: {
     addContact: (state, action: PayloadAction<Contact>) => {
       state.items.push(action.payload);
       showToastMessage("Contact created.", "success");
+      // Update local storage
+      localStorage.setItem("contacts", JSON.stringify(state.items));
     },
     removeContact: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter((todo) => todo.id !== action.payload);
+      state.items = state.items.filter((contact) => contact.id !== String(action.payload));
       showToastMessage("Contact deleted.", "error");
+      // Update local storage
+      localStorage.setItem("contacts", JSON.stringify(state.items));
     },
     updateContact: (state, action: PayloadAction<Contact>) => {
-
       const index = state.items.findIndex(
-        (item) => item.id === action.payload.id
+        (contact) => contact.id === action.payload.id
       );
       if (index !== -1) {
         state.items[index] = action.payload;
-        console.log(state.items[index]);
       }
       showToastMessage("Contact details updated.", "success");
+      // Update local storage
+      localStorage.setItem("contacts", JSON.stringify(state.items));
     },
   },
 });
 
-export const { addContact, removeContact, updateContact } =
-  contactSlice.actions;
-
-export default contactSlice.reducers;
+export const { addContact, removeContact, updateContact } = contactSlice.actions;
 
 const rootReducer = combineReducers({
   contacts: contactSlice.reducer,
 });
 
+// Retrieving contacts from local storage if available
+const storedContacts = localStorage.getItem("contacts");
+const preloadedState = storedContacts ? { contacts: { items: JSON.parse(storedContacts) } } : {};
+
 export const store = configureStore({
   reducer: rootReducer,
-  preloadedState: {
-    contacts: {
-      items: [
-        {
-            id: 1,
-            firstName: "Sarah",
-            lastName: "Naved",
-            status: "Inactive",
-          },
-          {
-            id: 2,
-            firstName: "Ayesha",
-            lastName: "Arif",
-            status: "Inactive",
-          },
-          {
-            id: 3,
-            firstName: "Uru",
-            lastName: "Jam",
-            status: "Active",
-          },
-          {
-            id: 4,
-            firstName: "Ilma",
-            lastName: "Shah",
-            status: "Inactive",
-          },
-          {
-            id: 5,
-            firstName: "Ifrah",
-            lastName: "Andleeb",
-            status: "Active",
-          },
-      ],
-    },
-  },
+  preloadedState: preloadedState,
 });
