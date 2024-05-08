@@ -10,7 +10,7 @@ const Input = ({ label, placeholder, onChange,value,name }: any) => {
         onChange={onChange}
         value={value}
         name={name}
-        className="outline-cyan p-3 lg:w-[280px] text-base border border-secondary rounded placeholder:text-[#808080]"
+        className="outline-indigo-500 p-3 lg:w-[280px] text-base border border-secondary rounded placeholder:text-[#808080]"
       />
     </div>
   );

@@ -23,7 +23,7 @@ const Sidebar = () => {
         <Link key={item?.id} to={item?.link}>
           <p
             className={`lg:text-lg font-medium cursor-pointer uppercase tracking-widest lg:w-[140px] ${
-              pathname === item?.link ? "text-cyan" : ""
+              pathname === item?.link ? "text-indigo-500" : ""
             }`}
           >
             {item?.name}

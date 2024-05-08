@@ -14,7 +14,7 @@ const Button = ({ text, onClick, width, variant }: any) => {
       ) : (
         <button
           onClick={onClick}
-          className={`bg-cyan p-4 text-base font-medium text-white tracking-widest hover:shadow-md ${
+          className={`bg-indigo-500 p-4 text-base font-medium text-white tracking-widest hover:shadow-md ${
             width ? width : "w-full"
           } uppercase `}
         >

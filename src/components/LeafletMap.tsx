@@ -36,7 +36,7 @@ const points = [
   },
 ];
 
-function customMarkerIcon(color: any) {
+function customMarkerIcon(color: any) { 
   const svgTemplate = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="marker">
       <path fill-opacity=".25" d="M16 32s1.427-9.585 3.761-12.025c4.595-4.805 8.685-.99 8.685-.99s4.044 3.964-.526 8.743C25.514 30.245 16 32 16 32z"/>
@@ -52,7 +52,7 @@ function customMarkerIcon(color: any) {
   });
 }
 
-const MyMarkers = ({ data, data2 }: any) => {
+const MyMarkers = ({ data, data2 }: any) => { 
   console.log(data2, "country specific marker");
 
   let thisPoints = [] as any;
@@ -76,8 +76,8 @@ const MyMarkers = ({ data, data2 }: any) => {
         icon={customMarkerIcon("B2022F")}
       >
         <Popup>
-          <p className="text-[#323232] font-medium">{country}</p>
-          <p className="text-yellow-600 text-xs">Active: <span className="font-medium">{active}</span></p>
+          <p className="text-[#323232] font-semibold">{country}</p>
+          <p className="text-yellow-500 text-xs">Active: <span className="font-medium">{active}</span></p>
           <p className="text-red-600 text-xs">Deaths: <span className="font-medium">{deaths}</span></p>
           <p className="text-green-600 text-xs">Recovered: <span className="font-medium">{recovered}</span></p>
         </Popup>
@@ -87,7 +87,7 @@ const MyMarkers = ({ data, data2 }: any) => {
 };
 
 const LeafletMap = () => {
-  const [markerData, setMarkerData] = useState([]);
+  const [markerData, setMarkerData] = useState([]); 
   const {
     data: data,
     error: error,
