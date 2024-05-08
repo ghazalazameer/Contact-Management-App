@@ -3,7 +3,6 @@ import Sidebar from "../Sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addContact, updateContact } from "../middleware/store";
-import { showToastMessage } from "../utils/helpers";
 import { nanoid } from "nanoid";
 
 const radioItems = [
@@ -50,27 +49,16 @@ const CreateContact = ({ edit }: any) => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    const newContact: import("../middleware/store").Contact = { ...params, id: nanoid() };  // Creating a new contact with a unique id using nanoid
-    dispatch(addContact(newContact));
-    const storedContacts = localStorage.getItem("contacts");  // Retrieving existing contacts from local storage / initializing an empty array
-    const contacts = storedContacts ? JSON.parse(storedContacts) : [];
-    const updatedContacts = [...contacts, newContact];
-    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+    const newContact: Contact = { ...params, id: nanoid() };
+    dispatch(addContact(newContact)); // Dispatch action to add contact
     navigate("/contacts");
   };
   
   const handleUpdate = () => {
-    const updatedContact: import("../middleware/store").Contact = { ...params, id: state.id };
-    dispatch(updateContact(updatedContact));
-    const storedContacts = localStorage.getItem("contacts");
-    const contacts = storedContacts ? JSON.parse(storedContacts) : [];
-    const updatedContacts = contacts.map((contact: import("../middleware/store").Contact) =>
-      contact.id === state.id ? updatedContact : contact
-    );
-    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+    const updatedContact: Contact = { ...params, id: state.id };
+    dispatch(updateContact(updatedContact)); // Dispatch action to update contact
     navigate("/contacts");
   };
-  
 
   return (
     <div className="flex lg:flex-row flex-col">
